@@ -152,6 +152,11 @@ var values = {
             'static to absolute': ['none', 'block', {discrete: true}],
             'block to inline-block': ['block', 'inline-block', {discrete: true}]
         };
+    },
+    'object-view-box': function() {
+        return {
+            inset: ['inset(10% 10% 20% 20%)', 'inset(20% 20% 30% 30%)']
+        };
     }
 };
 
@@ -267,7 +272,8 @@ var unspecified_properties = {
     'outline-radius-bottomright': ['length', 'percentage'],
     'outline-radius-bottomleft': ['length', 'percentage'],
     'display': ['display'],
-    'position': ['position']
+    'position': ['position'],
+    'object-view-box': ['object-view-box']
 };
 
 /*
