@@ -1,0 +1,31 @@
+<!doctype html>
+<meta charset=utf-8>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<body id="body">
+  <img src="https://www.example.com/images/dinosaur.jpg"
+     attributionsrc="http://localhost:8001/attribution-reporting/resources/event-level-reports/attribution-source.py" />
+  <script>
+    function poll() {
+      return fetch("/.well-known/attribution-reporting/report-event-attribution")
+              .then(resp => resp.json())
+              .then(payload => {
+                if (payload.reports.length == 0) {
+                  return poll();
+                } else {
+                  assert_equals(payload.reports.length, 1);
+                }
+              })
+    }
+    promise_test(() => {
+      return fetch("/.well-known/attribution-reporting/report-event-attribution?clear_stash=true")
+        .then(function (response) {
+          var image = document.createElement('img');
+          image.src = "https://www.example.com/images/dinosaur.jpg";
+          image.setAttribute('attributionsrc', 'http://localhost:8001/attribution-reporting/resources/event-level-reports/attribution-trigger.py');
+          document.getElementById('body').appendChild(image);
+          return poll();
+        });
+    }, "Ensure attribution report is received.");
+  </script>
+</body>
