@@ -1,0 +1,24 @@
+<!doctype html>
+<link rel="help" href="http://crbug.com/1325192">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="/common/utils.js"></script>
+<script src="/common/dispatcher/dispatcher.js"></script>
+<script src="/html/browsers/browsing-the-web/back-forward-cache/resources/helper.sub.js"></script>
+
+<script>
+// This test:
+// * Attaches an <object type="text/html"> to first page.
+// * Navigates away, then back via bfcache.
+runBfcacheTest({
+  targetOrigin: originSameOrigin,
+  shouldBeCached: true,
+  funcBeforeNavigation: () => {
+    const obj = document.createElement("object");
+    obj.type = "text/html";
+    obj.data = "/resources/blank.html";
+    document.body.append(obj);
+  }
+}, "the page with object iframe should be loaded from bfcached.");
+
+</script>

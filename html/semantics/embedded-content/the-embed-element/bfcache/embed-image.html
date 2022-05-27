@@ -1,0 +1,24 @@
+<!doctype html>
+<link rel="help" href="http://crbug.com/1325192">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="/common/utils.js"></script>
+<script src="/common/dispatcher/dispatcher.js"></script>
+<script src="/html/browsers/browsing-the-web/back-forward-cache/resources/helper.sub.js"></script>
+
+<script>
+// This test:
+// * Attaches an <embed type='image/png'> to first page.
+// * Navigates away, then back via bfcache.
+runBfcacheTest({
+  targetOrigin: originSameOrigin,
+  shouldBeCached: true,
+  funcBeforeNavigation: () => {
+    const embed = document.createElement('embed');
+    embed.type = 'image/png';
+    embed.src = '/images/blue.png';
+    document.body.append(embed);
+  }
+}, 'the page with embedded image should be loaded from bfcached.'');
+
+</script>
